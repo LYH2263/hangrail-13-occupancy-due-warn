@@ -278,3 +278,72 @@ button {
   display: flex; align-items: center; justify-content: center;
   padding: 0 4px; overflow: hidden; white-space: nowrap;
 }
+
+/* —— 到期三档：分档值由后端下发，前端仅按类着色 —— */
+.seg--overdue {
+  background: linear-gradient(180deg, #7a2f22, #532018);
+  border-color: #c0604a;
+  color: #ffd8cc;
+}
+.seg--due_soon {
+  background: linear-gradient(180deg, #80582a, #5a3d18);
+  border-color: #d8a84a;
+  color: #ffe6b0;
+}
+.seg--ok {
+  background: var(--seg);
+  border-color: #a8876a;
+  color: #fff;
+}
+
+.due-badge {
+  font-style: normal;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: .72rem;
+  padding: .15rem .5rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  white-space: nowrap;
+  display: inline-block;
+}
+.due-badge--overdue {
+  background: #3a1810;
+  border-color: #a05040;
+  color: #ffb0a0;
+}
+.due-badge--due_soon {
+  background: #33260e;
+  border-color: #b8862f;
+  color: #f0c674;
+}
+.due-badge--ok {
+  background: #20281c;
+  border-color: #5d7050;
+  color: #b6c9a8;
+}
+
+.occ-legend {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.occ-warn { margin-top: .75rem; font-size: .88rem; }
+.occ-warn-row--overdue { background: rgba(160, 80, 64, .12); }
+.occ-warn-row--due_soon { background: rgba(184, 134, 47, .10); }
+
+/* 顶部下垂票签的三档提示 */
+.hang-tag-due {
+  font-size: .58rem;
+  font-family: "IBM Plex Mono", monospace;
+  line-height: 1.1;
+}
+.hang-tag-body--overdue {
+  background: #f3d8d0;
+}
+.hang-tag-body--overdue .hang-tag-due { color: #a0342a; font-weight: 700; }
+.hang-tag-body--due_soon {
+  background: #f4e6c8;
+}
+.hang-tag-body--due_soon .hang-tag-due { color: #8a5a10; font-weight: 700; }
+.hang-tag-body--ok .hang-tag-due { color: #6a7a5a; }

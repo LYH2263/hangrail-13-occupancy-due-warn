@@ -16,6 +16,7 @@ from app.schemas.schemas import (
     StoreOut,
 )
 from app.services.rail_engine import Segment, first_fit
+from app.services.due import classify_due
 
 api_router = APIRouter()
 
@@ -48,6 +49,8 @@ def occupancy(rail_id: int, db: Session = Depends(get_db)):
     placements = db.scalars(
         select(RailPlacement).where(RailPlacement.rail_id == rail_id, RailPlacement.active == 1)
     ).all()
+    # 整次响应用同一个 now，避免段之间基准漂移；与 work_orders.due_at 同一来源。
+    now = datetime.utcnow()
     segs = []
     for p in placements:
         order = db.get(WorkOrder, p.order_id)
@@ -60,6 +63,8 @@ def occupancy(rail_id: int, db: Session = Depends(get_db)):
                 garment_name=order.garment_name,
                 start_cm=p.start_cm,
                 end_cm=p.end_cm,
+                due_at=order.due_at,
+                due_level=classify_due(order.due_at, now),
             )
         )
     segs.sort(key=lambda s: s.start_cm)

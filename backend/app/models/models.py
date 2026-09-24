@@ -4,6 +4,7 @@ from sqlalchemy import DateTime, Float, ForeignKey, Integer, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database import Base
+from app.services.due import classify_due
 
 
 class Store(Base):
@@ -33,6 +34,11 @@ class WorkOrder(Base):
     status: Mapped[str] = mapped_column(String(20), default="ready")  # ready/hung/picked/overdue
     due_at: Mapped[datetime] = mapped_column(DateTime)
     hung_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
+
+    @property
+    def due_level(self) -> str:
+        # 只读派生属性：与占用接口、逾期扫描同一时间基准，不落库。
+        return classify_due(self.due_at)
 
 
 class RailPlacement(Base):

@@ -24,6 +24,7 @@ class OrderOut(BaseModel):
     length_cm: float
     status: str
     due_at: datetime
+    due_level: str
     hung_at: datetime | None
     model_config = {"from_attributes": True}
 
@@ -43,6 +44,8 @@ class OccupancySeg(BaseModel):
     garment_name: str
     start_cm: float
     end_cm: float
+    due_at: datetime
+    due_level: str
 
 
 class OccupancyOut(BaseModel):
