@@ -275,6 +275,52 @@ button {
 .seg {
   position: absolute; top: 8px; bottom: 8px; background: var(--seg); border-radius: 4px;
   border: 1px solid #a8876a; color: #fff; font-size: 11px;
-  display: flex; align-items: center; justify-content: center;
-  padding: 0 4px; overflow: hidden; white-space: nowrap;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 0 4px; overflow: hidden; white-space: nowrap; gap: 1px;
 }
+.seg-code { font-family: "IBM Plex Mono", monospace; font-weight: 700; font-size: 11px; line-height: 1.1; }
+.seg-name { font-size: 10px; line-height: 1.1; }
+.seg-due { font-family: "IBM Plex Mono", monospace; font-size: 9px; line-height: 1.1; opacity: .92; }
+
+/* 到期三档：已逾期 / 不足 12 小时 / 尚余充足（颜色仅作区分，时间一律来自后端 due_at） */
+.seg--safe {
+  background: #4a5a3a;
+  border-color: #8aa872;
+}
+.seg--due-soon {
+  background: #6b5326;
+  border-color: #d8a948;
+  box-shadow: inset 0 0 0 1px rgba(216, 169, 72, .35);
+}
+.seg--overdue {
+  background: #6e2418;
+  border-color: #e06a4a;
+  box-shadow: inset 0 0 0 1px rgba(224, 106, 74, .45);
+}
+
+.due-legend {
+  display: inline-flex; align-items: center; gap: .35rem;
+  font-size: .78rem; color: var(--hang-muted);
+}
+.due-legend .dot { margin-left: .6rem; }
+.dot {
+  display: inline-block; width: .6rem; height: .6rem; border-radius: 50%;
+  background: #8aa872;
+}
+.dot--due-soon { background: #d8a948; }
+.dot--overdue { background: #e06a4a; }
+.dot--safe { background: #8aa872; }
+
+.rail-select { padding: .35rem .5rem; margin-left: .35rem; }
+
+/* 工单到期列与占位段同档同色、同一时间来源（后端 due_at） */
+.due-td-time { display: block; }
+.due-td-hint { display: block; font-size: .72rem; }
+.due-td--overdue .due-td-hint { color: #ff9b7a; }
+.due-td--due-soon .due-td-hint { color: #e8c068; }
+.due-td--safe .due-td-hint { color: #9ab884; }
+
+/* 顶部下垂票签沿用同一三档色 */
+.hang-tag-body--overdue { background: #e7b3a6; }
+.hang-tag-body--due-soon { background: #ecd49a; }
+.hang-tag-body--safe { background: var(--hang-tag); }

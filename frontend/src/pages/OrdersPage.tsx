@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { api } from "../api/client";
+import { dueHint, dueLevel, formatDue } from "../utils/due";
 type O = { id: number; ticket_code: string; garment_name: string; length_cm: number; status: string; due_at: string };
 export default function OrdersPage() {
   const [rows, setRows] = useState<O[]>([]);
@@ -19,9 +20,15 @@ export default function OrdersPage() {
     {msg && <div className="ok">{msg}</div>}
     {err && <div className="err">{err}</div>}
     <table className="table"><thead><tr><th>票号</th><th>衣物</th><th>衣长</th><th>状态</th><th>到期</th><th></th></tr></thead>
-    <tbody>{rows.map(o => <tr key={o.id}><td className="mono">{o.ticket_code}</td><td>{o.garment_name}</td><td className="mono">{o.length_cm}cm</td><td>{o.status}</td>
-      <td className="mono">{new Date(o.due_at).toLocaleString()}</td>
-      <td>{(o.status === "ready" || o.status === "overdue") && <button onClick={() => hang(o.id)}>上杆</button>}</td>
-    </tr>)}</tbody></table>
+    <tbody>{rows.map(o => {
+      const lvl = dueLevel(o.due_at);
+      return <tr key={o.id}><td className="mono">{o.ticket_code}</td><td>{o.garment_name}</td><td className="mono">{o.length_cm}cm</td><td>{o.status}</td>
+        <td className={`mono due-td due-td--${lvl}`}>
+          <span className="due-td-time">{formatDue(o.due_at)}</span>
+          <span className="due-td-hint">{dueHint(o.due_at)}</span>
+        </td>
+        <td>{(o.status === "ready" || o.status === "overdue") && <button onClick={() => hang(o.id)}>上杆</button>}</td>
+      </tr>;
+    })}</tbody></table>
   </>);
 }

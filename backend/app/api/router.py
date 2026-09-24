@@ -60,6 +60,7 @@ def occupancy(rail_id: int, db: Session = Depends(get_db)):
                 garment_name=order.garment_name,
                 start_cm=p.start_cm,
                 end_cm=p.end_cm,
+                due_at=order.due_at,
             )
         )
     segs.sort(key=lambda s: s.start_cm)

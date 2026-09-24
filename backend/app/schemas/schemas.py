@@ -43,6 +43,8 @@ class OccupancySeg(BaseModel):
     garment_name: str
     start_cm: float
     end_cm: float
+    # 与工单到期字段同一来源（WorkOrder.due_at），前端不得本地编造
+    due_at: datetime
 
 
 class OccupancyOut(BaseModel):

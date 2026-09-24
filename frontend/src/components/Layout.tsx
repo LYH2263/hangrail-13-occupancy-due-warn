@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { NavLink, Outlet, useLocation } from "react-router-dom";
 import { api } from "../api/client";
+import { dueLevel, formatDue } from "../utils/due";
 
 const icons = [
   { to: "/occupancy", icon: "━", label: "占位" },
@@ -15,7 +16,7 @@ type Occ = {
   rail_id: number;
   label: string;
   length_cm: number;
-  segments: { ticket_code: string; garment_name: string; start_cm: number; end_cm: number }[];
+  segments: { ticket_code: string; garment_name: string; start_cm: number; end_cm: number; due_at: string }[];
 };
 type Order = { id: number; ticket_code: string; garment_name: string; status: string; due_at?: string };
 
@@ -102,10 +103,10 @@ export default function Layout() {
                 key={`${t.ticket_code}-${i}`}
                 className="hang-tag"
                 style={{ marginLeft: i === 0 ? `${Math.min(t.left, 40)}%` : undefined }}
-                title={`${t.rail} ${t.start_cm}-${t.end_cm}cm`}
+                title={`${t.rail} ${t.start_cm}-${t.end_cm}cm · 到期 ${formatDue(t.due_at)}`}
               >
                 <div className="hang-tag-hook" />
-                <div className="hang-tag-body">
+                <div className={`hang-tag-body hang-tag-body--${dueLevel(t.due_at)}`}>
                   <div className="hang-tag-code">{t.ticket_code}</div>
                   <div className="hang-tag-name">{t.garment_name}</div>
                   <div className="hang-tag-rail">{t.rail}</div>
